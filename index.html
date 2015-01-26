@@ -130,11 +130,11 @@ object Main extends App {
 				<section>
 					<p>Приватное состояние без синхронизации.
 					Сериализация
-					операций над внешним миром, например:</p>
+					операций над внешним миром, например актор для:</p>
 					<ul>
-						<li>Чтение из RandomAccessFile (seek/read). 
-						<li>Обработка данных одного пользователя, хранящихся в внешнем
-						    хранилище без транзакций.
+						<li>чтения из RandomAccessFile (seek/read). 
+						<li>обработки данных пользователя, хранящихся в внешнем
+						    хранилище.
 					</ul>
 				</section>
 
@@ -172,7 +172,7 @@ object Main extends App {
 					<p>Виды ошибок в автомате с газировкой:
 					<ul>
 						<li>"Не достаточно средств", "закончилась кола" — пользователю
-						<li>NullPointerException, сбой механизма — супервизору
+						<li>NullPointerException, CocaColaJam — супервизору
 					</ul>
 				</section>
 
@@ -219,7 +219,7 @@ override val supervisorStrategy =
 <pre>	<code>
 context.watch(anotherActorRef)
 	</code></pre>
-					<p>Либо ловим сообщение Terminated(actorRef), либо death pack – останавливаемся вместе.</p>
+					<p>Либо ловим сообщение Terminated(actorRef), либо death pact – останавливаемся вместе.</p>
 
 			</div>
 
