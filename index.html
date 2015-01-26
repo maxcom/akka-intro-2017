@@ -47,15 +47,47 @@
 					<h2>План</h2>
                                         <ol>
                                           <li>Актор — асинхронный объект. <!-- Сериализация событий при помощи акторов.--></li>
-					  <li>Диспетчеры. <!-- Разделение акторов по подсистемам.--></li>
-					  <li>Обработка исключительных ситуаций.<!-- Иерархия супервизоров и стратегии обработки.
+					  <li class="fragment">Диспетчеры. <!-- Разделение акторов по подсистемам.--></li>
+					  <li class="fragment">Обработка исключительных ситуаций.<!-- Иерархия супервизоров и стратегии обработки.
 					  Death pact и Death watch.--></li>
-					  <li>Отсутствие гарантий доставки.<!-- Протоколы с подтверждением. Let it crash и End-to-end принципы.--></li>
-					  <li>Регулировка скорости обработки.</li>
-					  <li>Коротко что еще есть в Akka: IO/HTTP, Persistence, Cluster, Reactive Streams.</li>
-					  <li>Проблемы. <!-- динамическое ООП в функциональном мире; отладка и мониторинг; 
+					  <li class="fragment">Отсутствие гарантий доставки.<!-- Протоколы с подтверждением. Let it crash и End-to-end принципы.--></li>
+					  <li class="fragment">Регулировка скорости обработки.</li>
+					  <li class="fragment">Коротко что еще есть в Akka: IO/HTTP, Persistence, Cluster, Reactive Streams.</li>
+					  <li class="fragment">Проблемы. <!-- динамическое ООП в функциональном мире; отладка и мониторинг; 
 					      смесь бизнес-логики и flow control --></li>
+					</ol>
 				</section>
+
+				<section>
+					<h2>1. Актор — асинхронный объект.</h2>
+					<table>
+						<thead>
+							<tr>
+								<th></th><th>Объект</th> <th>Актор</th>
+							</tr>
+
+							<tr>
+								<td>Приватное состояние</td><td>+</td><td>+</td>
+							</tr>
+							<tr class="fragment">
+								<td>Вызов</td>
+								<td>counter.incr(n)</td>
+								<td>counter ! Incr(n)</td>
+							</tr>
+							<tr class="fragment">
+								<td>Запрос</td>
+								<td>counter.get()<br>⇒ Int</td>
+								<td>counter ? Get<br>⇒ Future[Int]</td>
+							</tr>
+							<tr class="fragment">
+								<td>Паралельность</td>
+								<td>есть</td>
+								<td>нет</td>
+							</tr>
+						</thead>
+					</table>
+				</section>
+
 			</div>
 
 		</div>
