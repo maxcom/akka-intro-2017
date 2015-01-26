@@ -47,9 +47,8 @@
 					<h2>План</h2>
                                         <ol>
                                           <li>Актор — асинхронный объект.</li>
-					  <li class="fragment">Диспетчеры. <!-- Разделение акторов по подсистемам.--></li>
-					  <li class="fragment">Обработка исключительных ситуаций.<!-- Иерархия супервизоров и стратегии обработки.
-					  Death pact и Death watch.--></li>
+					  <li class="fragment">Диспетчеры.</li>
+					  <li class="fragment">Обработка исключительных ситуаций.</li>
 					  <li class="fragment">Отсутствие гарантий доставки.<!-- Протоколы с подтверждением. Let it crash и End-to-end принципы.--></li>
 					  <li class="fragment">Регулировка скорости обработки.</li>
 					  <li class="fragment">Коротко что еще есть в Akka: IO/HTTP, Persistence, Cluster, Reactive Streams.</li>
@@ -149,7 +148,7 @@ object Main extends App {
 				</section>
 
 				<section>
-					<h2>Диспетчеры - проблемы</h2>
+					<h3>Диспетчеры - проблемы</h3>
 					<ul>
 						<li>Не все акторы одинаковы</li>
 						<li>Акторы с долгими задачами могут занять все треды</li>
@@ -158,7 +157,7 @@ object Main extends App {
 				</section>
 
 				<section>
-					<h2>Диспетчеры под задачи</h2>
+					<h3>Диспетчеры под задачи</h3>
 					<ul>
 						<li>Интерактивные задачи vs фоновая пакетная обработка.
 						<li class="fragment">Блокирующиеся вызовы (JDBC, файловый ввод-вывод, вычисления на CPU).
@@ -166,6 +165,62 @@ object Main extends App {
 						<li class="fragment">Своя JVM и свой сервер на каждую подсистемы (Akka Remote / Cluster).
 					</ul>
 					<p class="fragment">Факт: «Титаник» утонул из-за плохого разделения на отсеки.</p>
+				</section>
+
+				<section>
+					<h2>Обработка исключительных ситуаций</h2>
+					<p>Виды ошибок в автомате с газировкой:
+					<ul>
+						<li>"Не достаточно средств", "закончилась кола" — пользователю
+						<li>NullPointerException, сбой механизма — супервизору
+					</ul>
+				</section>
+
+				<section>
+					<h3>Пример: драйвер базы данных</h3>
+					<ul>
+						<li>Дублирование первичного ключа, нарушение foreign key — пользователю драйвера</li>
+						<li>«БД перезагружается», «Соединение разорвано» — супервизору</li>
+					</ul>
+					<p>Иерархия: DriverActor -&gt; ConnectionActor -&gt; TransactionActor
+				</section>
+
+				<section>
+					<h3>Стратегии супервизора</h3>
+					<ul>
+						<li><strong>Restart</strong> – незаметный перезапуск.
+						<li class="fragment"><strong>Stop</strong> – остановка.
+						<li class="fragment"><strong>Escalate</strong> – обрушивает супервизор.
+					</ul>
+				</section>
+
+				<section>
+					<p>Пример для ConnectionActor</p>
+					<pre>
+<code>
+override val supervisorStrategy =
+  OneForOneStrategy(maxNrOfRetries = 10, withinTimeRange = 1 minute) {
+    case _: ConnectionResetException        ⇒ Restart
+    case _: DatabaseWasDeletedException     ⇒ Stop
+    case _: SharedMemoryCorruptionException ⇒ Escalate
+  }
+						</code>
+					</pre>
+				</section>
+
+				<section>
+					<h3>Death pact &amp; death watch</h3>
+					<p>Пример: один запрос – три иерархии.
+					<img src="service.svg">
+				</section>
+
+				<section>
+					<p>Ожидание остановки актора:</p>
+<pre>	<code>
+context.watch(anotherActorRef)
+	</code></pre>
+					<p>Либо ловим сообщение Terminated(actorRef), либо death pack – останавливаемся вместе.</p>
+
 			</div>
 
 		</div>
