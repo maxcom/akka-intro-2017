@@ -80,13 +80,53 @@
 								<td>counter ? Get<br>⇒ Future[Int]</td>
 							</tr>
 							<tr class="fragment">
-								<td>Паралельность</td>
+								<td>Параллельность</td>
 								<td>есть</td>
 								<td>нет</td>
 							</tr>
 						</thead>
 					</table>
 				</section>
+
+				<section>
+					<pre>
+<code>
+class CounterActor extends Actor {
+  import CounterActor._
+
+  private var value:Long = 0 // state
+
+  def receive = {            // behaviour
+    case Incr(n) ⇒ counter += n
+    case Get     ⇒ sender() ! counter
+  }
+}
+
+object CounterActor {        // protocol
+  case class Incr(n:Long)
+  case object Get
+}
+
+						</code>
+					</pre>
+				</section>
+				<section>
+
+					<pre>
+<code>
+object Main extends App {
+  val system = ActorSystem("DemoSystem")
+  val counterActor = 
+    system.actorOf(Props[CounterActor], name = "counter")
+
+  helloActor ! Incr(1)
+  println(Await.wait(helloActor ? Get, 1.minutes))
+  // может напечатать как 0, так и 1
+}
+						</code>
+					</pre>
+				</section>
+
 
 			</div>
 
