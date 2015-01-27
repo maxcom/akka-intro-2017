@@ -41,6 +41,7 @@
 					<h1>Akka</h1>
                                         <h3>Акторы для JVM</h3>
 					<p>Тулкит для построения параллельных, распределенных и отказоустойчивых приложений</p>
+					<p><small>Слайды: <a href="http://maxcom.github.io/akka-intro-slides/">http://maxcom.github.io/akka-intro-slides/</a></small></p>
 				</section>
 
 				<section>
@@ -49,11 +50,10 @@
                                           <li>Актор — асинхронный объект.</li>
 					  <li class="fragment">Диспетчеры.</li>
 					  <li class="fragment">Обработка исключительных ситуаций.</li>
-					  <li class="fragment">Отсутствие гарантий доставки.<!-- Протоколы с подтверждением. Let it crash и End-to-end принципы.--></li>
+					  <li class="fragment">Отсутствие гарантий доставки.</li>
 					  <li class="fragment">Регулировка скорости обработки.</li>
 					  <li class="fragment">Коротко что еще есть в Akka: роутеры, IO/HTTP, Persistence, Cluster, Reactive Streams.</li>
-					  <li class="fragment">Проблемы. <!-- динамическое ООП в функциональном мире; отладка и мониторинг; 
-					      смесь бизнес-логики и flow control --></li>
+					  <li class="fragment">Проблемы.</li>
 					</ol>
 				</section>
 
@@ -265,6 +265,45 @@ context.watch(anotherActorRef)
 					<p class="fragment">«Self heal» – периодически проводим сверку и запускаем в обработку то что
 					не смогли обработать ранее.</p>
 				</section>
+
+				<section>
+					<h2>Регулировка скорости обработки</h2>
+					<p>Проблема: быстрый producer + медленный consumer = OOM</p>
+					<p class="fragment">Решение: выбрасываем то что не успевает обработать</p>
+					<p class="fragment">Решение: замедляем producer'а (back pressure)</p>
+				</section>
+
+				<section>
+					<h3>Back pressure</h3>
+					<p><strong>Push</strong>: producer ждет подтверждения обработки перед следующей порцией задач.</p>
+					<p><strong>Pull</strong>: consumer запрашивает задачи когда свободен.</p>
+				</section>
+
+				<section>
+					<h2>Что еще есть в Akka</h2>
+					<ul>
+					<li class="fragment">Роутеры – распределение задач по пулу акторов.
+					<li class="fragment">IO – актор API к Java NIO, аналог Netty.
+					<li class="fragment">HTTP – отдельная библиотека Spray; Akka-http в будущем.
+					<li class="fragment">Persistence - сохранение состояния акторов в СУБД. Event log, snapshot'ы и eventual consistency.
+					<li class="fragment">Reactive streams - поточная обработка данных с back pressure. Удобный DSL; не только Akka
+					<li class="fragment">Cluster - распределенные приложения на Akka</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Проблемы</h2>
+					<ul>
+						<li>Динамическое ООП в строготипизированном ФП.
+						<li class="fragment">Нет готовых средств мониторинга. Отладка/диагностика может быть сложна.
+						<li class="fragment">Смесь бизнес-логики и механизмов flow control.
+					</ul>
+				</section>
+
+				<section>
+					<h1>Вопросы</h1>
+				</section>
+
 			</div>
 
 		</div>
