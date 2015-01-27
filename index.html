@@ -162,7 +162,7 @@ object Main extends App {
 						<li>Интерактивные задачи vs фоновая пакетная обработка.
 						<li class="fragment">Блокирующиеся вызовы (JDBC, файловый ввод-вывод, вычисления на CPU).
 						<li class="fragment">Свой «отсек» на каждую подсистему (bulkheading).
-						<li class="fragment">Своя JVM и свой сервер на каждую подсистемы (Akka Remote / Cluster).
+						<li class="fragment">Своя JVM и свой сервер на каждую подсистему (Akka Remote / Cluster).
 					</ul>
 					<p class="fragment">Факт: «Титаник» утонул из-за плохого разделения на отсеки.</p>
 				</section>
@@ -172,7 +172,7 @@ object Main extends App {
 					<p>Виды ошибок в автомате с газировкой:
 					<ul>
 						<li>"Не достаточно средств", "закончилась кола" — пользователю
-						<li>NullPointerException, CocaColaJam — супервизору
+						<li>NullPointerException, CocaColaJam — владельцу (супервизору)
 					</ul>
 				</section>
 
@@ -284,7 +284,7 @@ context.watch(anotherActorRef)
 					<h2>Что еще есть в Akka</h2>
 					<ul>
 					<li>Роутеры – распределение задач по пулу акторов.
-					<li class="fragment">Reactive streams - поточная обработка данных с back pressure. Удобный DSL; не только Akka
+					<li class="fragment">Reactive streams – поточная обработка данных с back pressure. Удобный DSL; не только Akka
 					<li class="fragment">IO – API к Java NIO, аналог Netty.
 					<li class="fragment">HTTP – отдельная библиотека Spray; Akka-http в будущем.
 					<li class="fragment">Persistence – сохранение состояния акторов в СУБД. Event log, snapshot'ы и eventual consistency.
