@@ -182,7 +182,7 @@ object Main extends App {
 						<li>Дублирование первичного ключа, нарушение foreign key — пользователю драйвера</li>
 						<li>«БД перезагружается», «Соединение разорвано» — супервизору</li>
 					</ul>
-					<p>Иерархия: DriverActor -&gt; ConnectionActor -&gt; TransactionActor
+					<p>Иерархия: DriverActor → ConnectionActor → TransactionActor
 				</section>
 
 				<section>
@@ -254,7 +254,7 @@ context.watch(anotherActorRef)
 
 				<section>
 					<h3>«End-to-end» принцип</h3>
-					<p>Как в TCP: клиент -&gt; цепочка акторов -&gt; получатель</p>
+					<p>Как в TCP: клиент →  цепочка акторов → получатель</p>
 					<p>Клиент ждет подтверждения от получателя. Остальные акторы в цепочке не контролируют
 					доставку.</p>
 				</section>
