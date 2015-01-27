@@ -51,7 +51,7 @@
 					  <li class="fragment">Обработка исключительных ситуаций.</li>
 					  <li class="fragment">Отсутствие гарантий доставки.<!-- Протоколы с подтверждением. Let it crash и End-to-end принципы.--></li>
 					  <li class="fragment">Регулировка скорости обработки.</li>
-					  <li class="fragment">Коротко что еще есть в Akka: IO/HTTP, Persistence, Cluster, Reactive Streams.</li>
+					  <li class="fragment">Коротко что еще есть в Akka: роутеры, IO/HTTP, Persistence, Cluster, Reactive Streams.</li>
 					  <li class="fragment">Проблемы. <!-- динамическое ООП в функциональном мире; отладка и мониторинг; 
 					      смесь бизнес-логики и flow control --></li>
 					</ol>
@@ -121,7 +121,6 @@ object Main extends App {
 
   helloActor ! Incr(1)
   println(Await.wait(helloActor ? Get, 1.minutes))
-  // может напечатать как 0, так и 1
 }
 						</code>
 					</pre>
@@ -220,7 +219,52 @@ override val supervisorStrategy =
 context.watch(anotherActorRef)
 	</code></pre>
 					<p>Либо ловим сообщение Terminated(actorRef), либо death pact – останавливаемся вместе.</p>
+				</section>
 
+				<section>
+					<h2>Отсутствие гарантий доставки</h2>
+
+					<p>Сообщение теряется при:</p>
+					<ul>
+						<li>Рестарте актора</li>
+						<li>Переполнении ограниченного mailbox</li>
+						<li>Сетевых проблемах</li>
+						<li>...</li>
+					</ul>
+					<p>Только одна попытка доставки — «at least once delivery»</p>
+				</section>
+
+				<section>
+					<p>Сбой доставки нельзя детектировать.<p>
+					<p class="fragment">Решение: протоколы с подтверждением успеха обработки.<p>
+					<p class="fragment">Результат: подтвержденный успех или timeout.</p>
+					<p class="fragment">Каждое сообщение должно иметь unique id (например UUID).
+					                    В потоках еще применяют sequence number'а.
+				</section>
+
+				<section>
+					<p><strong>«At most once delivery»</strong> – retry при таймауте.
+					<p class="fragment"><strong>«Exactly once delivery»</strong> – retry при таймауте + фильтрация дублей получателем.
+				</section>
+
+				<section>
+					<p>Сложные схемы доставки обычно не нужны на каждом плече.</p>
+				</section>
+
+				<section>
+					<h3>«End-to-end» принцип</h3>
+					<p>Как в TCP: клиент -&gt; цепочка акторов -&gt; получатель</p>
+					<p>Клиент ждет подтверждения от получателя. Остальные акторы в цепочке не контролируют
+					доставку.</p>
+				</section>
+
+				<section>
+					<h3>«Happy path &amp; self heal»</h3>
+					<p>Применяется при пакетной обработке.</p>
+					<p class="fragment">«Happy path» — игнорируем сбои при первичной обработке.</p>
+					<p class="fragment">«Self heal» – периодически проводим сверку и запускаем в обработку то что
+					не смогли обработать ранее.</p>
+				</section>
 			</div>
 
 		</div>
