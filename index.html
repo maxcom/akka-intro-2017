@@ -133,7 +133,7 @@ object Main extends App {
 					операций над внешним миром, например актор для:</p>
 					<ul>
 						<li>чтения из RandomAccessFile (seek/read). 
-						<li>обработки данных пользователя, хранящихся в внешнем
+						<li>обработки данных пользователя, хранящихся во внешнем
 						    хранилище.
 					</ul>
 				</section>
@@ -166,7 +166,7 @@ object Main extends App {
 				</section>
 
 				<section>
-					<h3>Диспетчеры - проблемы</h3>
+					<h3>Диспетчеры — проблемы</h3>
 					<ul>
 						<li>Не все акторы одинаковы</li>
 						<li>Акторы с долгими задачами могут занять все треды</li>
@@ -250,7 +250,7 @@ context.watch(anotherActorRef)
 						<li>Сетевых проблемах</li>
 						<li>...</li>
 					</ul>
-					<p>Только одна попытка доставки — «at least once delivery»</p>
+					<p>Только одна попытка доставки — «at most once delivery»</p>
 				</section>
 
 				<section>
@@ -262,7 +262,7 @@ context.watch(anotherActorRef)
 				</section>
 
 				<section>
-					<p><strong>«At most once delivery»</strong> – retry при таймауте.
+					<p><strong>«At least once delivery»</strong> – retry при таймауте.
 					<p class="fragment"><strong>«Exactly once delivery»</strong> – retry при таймауте + фильтрация дублей получателем.
 				</section>
 
@@ -281,14 +281,14 @@ context.watch(anotherActorRef)
 					<h3>«Happy path &amp; self heal»</h3>
 					<p>Применяется при пакетной обработке.</p>
 					<p class="fragment">«Happy path» — игнорируем сбои при первичной обработке.</p>
-					<p class="fragment">«Self heal» – периодически проводим сверку и запускаем в обработку то что
+					<p class="fragment">«Self heal» – периодически проводим сверку и запускаем в обработку то, что
 					не смогли обработать ранее.</p>
 				</section>
 
 				<section>
 					<h2>Регулировка скорости обработки</h2>
 					<p>Проблема: быстрый producer + медленный consumer = OOM</p>
-					<p class="fragment">Решение: выбрасываем то что не успевает обработать</p>
+					<p class="fragment">Решение: выбрасываем то, что не успеваем обработать</p>
 					<p class="fragment">Решение: замедляем producer'а (back pressure)</p>
 				</section>
 
@@ -302,7 +302,7 @@ context.watch(anotherActorRef)
 					<h2>Что еще есть в Akka</h2>
 					<ul>
 					<li>Роутеры – распределение задач по пулу акторов.
-					<li class="fragment">Reactive streams – поточная обработка данных с back pressure. Удобный DSL; не только Akka
+					<li class="fragment">Reactive streams – поточная обработка данных с back pressure. Удобный DSL; не только Akka.
 					<li class="fragment">IO – API к Java NIO, аналог Netty.
 					<li class="fragment">HTTP – отдельная библиотека Spray; Akka-http в будущем.
 					<li class="fragment">Persistence – сохранение состояния акторов в СУБД. Event log, snapshot'ы и eventual consistency.
