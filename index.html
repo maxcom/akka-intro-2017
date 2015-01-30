@@ -238,7 +238,7 @@ override val supervisorStrategy =
 <pre>	<code>
 context.watch(anotherActorRef)
 	</code></pre>
-					<p>Либо ловим сообщение Terminated(actorRef), либо death pact – останавливаемся вместе.</p>
+					<p>Либо ловим сообщение Terminated(actorRef), либо «death pact» — останавливаемся вместе.</p>
 				</section>
 
 				<section>
@@ -263,8 +263,8 @@ context.watch(anotherActorRef)
 				</section>
 
 				<section>
-					<p><strong>«At least once delivery»</strong> – retry при таймауте.
-					<p class="fragment"><strong>«Exactly once delivery»</strong> – retry при таймауте + фильтрация дублей получателем.
+					<p><strong>«At least once delivery»</strong> — retry при таймауте.
+					<p class="fragment"><strong>«Exactly once delivery»</strong> — retry при таймауте + фильтрация дублей получателем.
 				</section>
 
 				<section>
@@ -298,7 +298,7 @@ context.watch(anotherActorRef)
 
 				<section>
 					<h2>Регулировка скорости обработки</h2>
-					<p>Проблема: быстрый producer + медленный consumer = OOM</p>
+					<p>Проблема: быстрый producer + медленный consumer = Out Of Memory</p>
 					<p class="fragment">Решение: выбрасываем то, что не успеваем обработать</p>
 					<p class="fragment">Решение: замедляем producer'а (back pressure)</p>
 				</section>
