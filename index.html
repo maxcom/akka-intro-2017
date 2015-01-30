@@ -117,7 +117,7 @@ object CounterActor {        // protocol
 <code>
 object Main extends App {
   val system = ActorSystem("DemoSystem")
-  val counterActor = 
+  val counterActor:ActorRef = 
     system.actorOf(Props[CounterActor], name = "counter")
 
   helloActor ! Incr(1)
@@ -136,6 +136,24 @@ object Main extends App {
 						<li>обработки данных пользователя, хранящихся в внешнем
 						    хранилище.
 					</ul>
+				</section>
+
+				<section>
+					<p>Разделяемое изменяемое состояние + параллельность = проблемы<p>
+					<div class="fragment">
+					<p><s>Разделяемое</s> изменяемое состояние + параллельность = 
+					«Share nothing» архитектура</p>
+					</div>
+				</section>
+
+				<section>
+					<h3>Актор состоит из:</h3>
+					<ul>
+						<li>Состояния
+						<li>Логики обработки сообщений (behaviour)
+						<li>Очереди сообщений (mailbox)
+					</ul>
+					<p><strong>ActorRef</strong> — идентификатор актора. 
 				</section>
 
 				<section>
