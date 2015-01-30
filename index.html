@@ -48,13 +48,14 @@
 					<h2>План</h2>
                                         <ol>
                                           <li>Актор — асинхронный объект.</li>
-					  <li class="fragment">Диспетчеры.</li>
-					  <li class="fragment">Обработка исключительных ситуаций.</li>
-					  <li class="fragment">Отсутствие гарантий доставки.</li>
-					  <li class="fragment">Регулировка скорости обработки.</li>
-					  <li class="fragment">Коротко что еще есть в Akka: роутеры, IO/HTTP, Persistence, Cluster, Reactive Streams.</li>
-					  <li class="fragment">Проблемы.</li>
-					  <li class="fragment">Вопросы.</li>
+					  <li>Диспетчеры.</li>
+					  <li>Обработка исключительных ситуаций.</li>
+					  <li>Отсутствие гарантий доставки сообщений.</li>
+					  <li>CircuitBreaker.</li>
+					  <li>Регулировка скорости обработки.</li>
+					  <li>Коротко что еще есть в Akka: роутеры, IO/HTTP, Persistence, Cluster, Reactive Streams.</li>
+					  <li>Проблемы.</li>
+					  <li>Вопросы.</li>
 					</ol>
 				</section>
 
@@ -189,7 +190,7 @@ object Main extends App {
 					<h2>Обработка исключительных ситуаций</h2>
 					<p>Виды ошибок в автомате с газировкой:
 					<ul>
-						<li>"Не достаточно средств", "закончилась кола" — пользователю
+						<li>«Не достаточно средств», «закончилась кола» — пользователю
 						<li>NullPointerException, CocaColaJam — владельцу (супервизору)
 					</ul>
 				</section>
@@ -286,6 +287,16 @@ context.watch(anotherActorRef)
 				</section>
 
 				<section>
+					<h2>Circuit Breaker</h2>
+					<p>«Предохранитель», которые можно вставлять между подсистемами.</p>
+					<p class="fragment">«Разрывает цепь» при частых ошибках.</p>
+					<div class="fragment">
+					<p>«Замыкает цепь» после таймаута и после успешных пробных запросов.</p>
+					<p>Можно использовать вне Akka.</p>
+					</div>
+				</section>
+
+				<section>
 					<h2>Регулировка скорости обработки</h2>
 					<p>Проблема: быстрый producer + медленный consumer = OOM</p>
 					<p class="fragment">Решение: выбрасываем то, что не успеваем обработать</p>
@@ -301,12 +312,12 @@ context.watch(anotherActorRef)
 				<section>
 					<h2>Что еще есть в Akka</h2>
 					<ul>
-					<li>Роутеры – распределение задач по пулу акторов.
-					<li class="fragment">Reactive streams – поточная обработка данных с back pressure. Удобный DSL; не только Akka.
-					<li class="fragment">IO – API к Java NIO, аналог Netty.
-					<li class="fragment">HTTP – отдельная библиотека Spray; Akka-http в будущем.
-					<li class="fragment">Persistence – сохранение состояния акторов в СУБД. Event log, snapshot'ы и eventual consistency.
-					<li class="fragment">Cluster – распределенные приложения на Akka</li>
+					<li>Роутеры — распределение задач по пулу акторов.
+					<li class="fragment">Reactive streams — поточная обработка данных с back pressure. Удобный DSL; не только Akka.
+					<li class="fragment">IO — API к Java NIO, аналог Netty.
+					<li class="fragment">HTTP — отдельная библиотека Spray; Akka-http в будущем.
+					<li class="fragment">Persistence — сохранение состояния акторов в СУБД. Event log, snapshot'ы и eventual consistency.
+					<li class="fragment">Cluster — распределенные приложения на Akka</li>
 					</ul>
 				</section>
 
