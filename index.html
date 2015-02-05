@@ -99,8 +99,8 @@ class CounterActor extends Actor {
   private var value:Long = 0 // state
 
   def receive = {            // behaviour
-    case Incr(n) ⇒ counter += n
-    case Get     ⇒ sender() ! counter
+    case Incr(n) ⇒ value += n
+    case Get     ⇒ sender() ! value
   }
 }
 
@@ -121,8 +121,8 @@ object Main extends App {
   val counterActor:ActorRef = 
     system.actorOf(Props[CounterActor], name = "counter")
 
-  helloActor ! Incr(1)
-  println(Await.wait(helloActor ? Get, 1.minutes))
+  counterActor ! Incr(1)
+  println(Await.wait(counterActor ? Get, 1.minutes))
 }
 						</code>
 					</pre>
