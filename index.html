@@ -96,7 +96,7 @@
 class CounterActor extends Actor {
   import CounterActor._
 
-  private var value:Long = 0 // state
+  private var value: Long = 0 // state
 
   def receive = {            // behaviour
     case Incr(n) ⇒ value += n
@@ -105,7 +105,7 @@ class CounterActor extends Actor {
 }
 
 object CounterActor {        // protocol
-  case class Incr(n:Long)
+  case class Incr(n: Long)
   case object Get
 }
 
@@ -118,11 +118,11 @@ object CounterActor {        // protocol
 <code>
 object Main extends App {
   val system = ActorSystem("DemoSystem")
-  val counterActor:ActorRef = 
+  val counterActor: ActorRef = 
     system.actorOf(Props[CounterActor], name = "counter")
 
   counterActor ! Incr(1)
-  println(Await.wait(counterActor ? Get, 1.minutes))
+  println(Await.result(counterActor ? Get, 1.minutes))
 }
 						</code>
 					</pre>
@@ -234,21 +234,8 @@ override val supervisorStrategy =
   }
 						</code>
 					</pre>
+					<p>Кроме быстрого перезапуска есть еще exponential back off</p>
 				</section>
-
-				<section>
-					<h3>Пример: персистентный актор</h3>
-					<ul>
-						<li>Актор соответствует некоторому объекту в БД
-						<li>При старте (и рестарте) состояние загружается из БД
-						<li>Команды меняют состояние в памяти и в БД
-					</ul>
-					<p>
-						При падении теряется команда на которой упали. Состояние безопасно
-						хранится в БД.
-					</p>
-				</section>
-
 
 				<section>
 					<h3>Death pact &amp; death watch</h3>
@@ -328,30 +315,7 @@ context.watch(anotherActorRef)
 
 				<section>
 					<h3>Back pressure</h3>
-					<p><strong>Push</strong>: producer ждет подтверждения обработки перед следующей порцией задач.</p>
-					<p><strong>Pull</strong>: consumer запрашивает задачи когда свободен.</p>
-				</section>
-
-				<section>
-					<h2>Что еще есть в Akka</h2>
-					<ul>
-					<li>Роутеры — распределение задач по пулу акторов.
-					<li class="fragment">Reactive streams — поточная обработка данных с back pressure. Удобный DSL; не только Akka.
-					<li class="fragment">IO — API к Java NIO, аналог Netty.
-					<li class="fragment">HTTP — отдельная библиотека Spray; Akka-http в будущем.
-					<li class="fragment">Persistence — сохранение состояния акторов в СУБД. Event log, snapshot'ы и eventual consistency.
-					<li class="fragment">Cluster — распределенные приложения на Akka</li>
-					</ul>
-				</section>
-
-				<section>
-					<h2>Проблемы</h2>
-					<ul>
-						<li>Динамическое ООП в строготипизированном ФП.
-						<li class="fragment">Нет готовых средств мониторинга. Отладка/диагностика может быть сложна.
-						<li class="fragment">Смесь бизнес-логики и механизмов flow control.
-						<li class="fragment">Логирование.
-					</ul>
+					<p>Раньше делали сами; теперь всегда используем akka-streams.</p>
 				</section>
 
 				<section>
